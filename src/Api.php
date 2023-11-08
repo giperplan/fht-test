@@ -24,7 +24,16 @@ class Api {
         $response = curl_exec($curl);
 
         curl_close($curl);
-        return Controller::toJson($response);
+        return $response;
     }
-
+    // todo May be need to create an individual caching class  
+    public function getCached ($request, $cacheTime = 300) {
+        $cacheFile = __DIR__ . '/../cache/' . md5($request) . '.json';
+        if (file_exists($cacheFile) and (time() - filemtime($cacheFile) < $cacheTime)) {
+            return file_get_contents($cacheFile);
+        }
+        $response = $this->get($request);
+        file_put_contents($cacheFile, $response);
+        return $response;
+    }
 }

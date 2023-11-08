@@ -19,7 +19,7 @@ class Controller {
         }
         
         $api = new Api();        
-        $response = $api->get($request);        
+        $response = $api->getCached($request);        
         echo $this->toJson($response);
     }
 }
