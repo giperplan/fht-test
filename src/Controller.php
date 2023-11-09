@@ -12,14 +12,17 @@ class Controller {
         return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
-    public function runByRequest($request) {
+    public function runAction($request) {
+        $out = [];        
         
-        if (!in_array($request, $this->legalRequests)) {
-            return $this->toJson(['error' => 'Illegal request']);
+        if ($request === 'projects') {                         
+            $out = (new Api())->getAllProjects(10);
         }
         
-        $api = new Api();        
-        $response = $api->getCached($request);        
-        echo $this->toJson($response);
+        if (!$out) {
+            $out= ['error' => 'Illegal request'];
+        }
+        
+        return $this->toJson($out);
     }
 }
