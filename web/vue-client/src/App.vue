@@ -47,9 +47,8 @@ export default {
     }
   },  
   methods: {
-    loadData: async function () {
-      let domain = window.location.hostname === 'localhost' ? 'https://fhtest.loc' : ''; 
-      let response = await fetch(domain + '/api.php?request=projects');
+    loadData: async function () {       
+      let response = await fetch('/api.php?request=projects');
       return await response.json();
     },
     selectProject(id) {
